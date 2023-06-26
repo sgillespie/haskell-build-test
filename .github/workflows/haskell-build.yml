@@ -10,6 +10,8 @@ jobs:
       - name: Install Haskell
         uses: sgillespie/actions/haskell@latest
         id: setup-haskell
+        with:
+          ghc-version: 9.6.2
 
       - name: Print PKG_CONFIG_PATH
         run: |
@@ -19,3 +21,12 @@ jobs:
           pkg-config --modversion icu-i18n
           echo "$ pkg-config --libs --static icu-i18n"
           pkg-config --libs --static icu-i18n
+
+      - name: Checkout source
+        uses: actions/checkout@v3
+          
+      - name: Build
+        run: cabal build
+
+      - name: Run app
+        run: cabal run
