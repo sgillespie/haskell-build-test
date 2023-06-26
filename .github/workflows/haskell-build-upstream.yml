@@ -1,0 +1,28 @@
+name: Haskell Build (Upstream)
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Install Haskell
+        uses: input-output-hk/actions/haskell@latest
+        id: setup-haskell
+        with:
+          ghc-version: 9.6.2
+
+      - name: Print PKG_CONFIG_PATH
+        run: |
+          echo "${PKG_CONFIG_PATH}"
+          export PKG_CONFIG_PATH
+
+      - name: Checkout source
+        uses: actions/checkout@v3
+          
+      - name: Build
+        run: cabal build
+
+      - name: Run app
+        run: cabal run
